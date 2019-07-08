@@ -16,6 +16,7 @@ import Header from "./components/Header";
 import Wrapper from "./components/Wrapper";
 import NowWhat from "./components/NowWhat";
 import Navbar from './Navbar'
+import HistoricalChart from './components/HistoricalChart';
 
 const store = createStore();
 const theme = createMuiTheme({
@@ -45,7 +46,7 @@ const App = props => (
         <Navbar />
         <Switch>
           <Route path='/' exact component={(props)=> <Home  {...props} />} />
-          <Route path='/historical-metric' exact component={(props)=> <>Test historical data</> }  />
+          <Route path='/historical-metric' exact component={(props)=> <HistoricalChart /> }  />
           <Redirect to="/" />
         </Switch>
       </HashRouter>

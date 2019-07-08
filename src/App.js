@@ -5,9 +5,17 @@ import { ToastContainer } from "react-toastify";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import "react-toastify/dist/ReactToastify.css";
+import { 
+  Route,
+  Switch,
+  Redirect,
+  HashRouter
+} from 'react-router-dom';
+
 import Header from "./components/Header";
 import Wrapper from "./components/Wrapper";
 import NowWhat from "./components/NowWhat";
+import Navbar from './Navbar'
 
 const store = createStore();
 const theme = createMuiTheme({
@@ -27,15 +35,20 @@ const theme = createMuiTheme({
   }
 });
 
+const Home =()=>(<Wrapper><Header /><NowWhat /><ToastContainer /></Wrapper>);
+
 const App = props => (
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
     <Provider store={store}>
-      <Wrapper>
-        <Header />
-        <NowWhat />
-        <ToastContainer />
-      </Wrapper>
+    <HashRouter>
+        <Navbar />
+        <Switch>
+          <Route path='/' exact component={(props)=> <Home  {...props} />} />
+          <Route path='/historical-metric' exact component={(props)=> <>Test historical data</> }  />
+          <Redirect to="/" />
+        </Switch>
+      </HashRouter>
     </Provider>
   </MuiThemeProvider>
 );

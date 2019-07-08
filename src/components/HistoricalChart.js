@@ -168,7 +168,6 @@ export default class HistoricalChart extends PureComponent {
           data={data}
           onMouseDown={e => this.setState({ refAreaLeft: e.activeLabel })}
           onMouseMove={e => this.state.refAreaLeft && this.setState({ refAreaRight: e.activeLabel })}
-          onMouseUp={this.zoom.bind(this)}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis

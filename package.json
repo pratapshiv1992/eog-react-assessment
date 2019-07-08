@@ -1,0 +1,41 @@
+{
+  "name": "eog-react-visualization-base",
+  "version": "2.0.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.0.2",
+    "@material-ui/icons": "^4.0.1",
+    "graphql": "^14.3.1",
+    "isomorphic-fetch": "^2.2.1",
+    "keyboardjs": "^2.5.1",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-router-dom": "^5.0.0",
+    "react-redux": "^7.1.0-rc.1",
+    "react-scripts": "3.0.1",
+    "react-toastify": "^4.4.0",
+    "react-use": "^9.4.0",
+    "rebound": "^0.1.0",
+    "redux": "^4.0.1",
+    "redux-saga": "^1.0.3",
+    "urql": "^1.1.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "redux-devtools-extension": "^2.13.5"
+  }
+}

@@ -9,26 +9,26 @@ import Select from '@material-ui/core/Select';
 
 import axios from 'axios';
 const data = [
-  { name: 1, cost: 4.11, impression: 100 },
-  { name: 2, cost: 2.39, impression: 120 },
-  { name: 3, cost: 1.37, impression: 150 },
-  { name: 4, cost: 1.16, impression: 180 },
-  { name: 5, cost: 2.29, impression: 200 },
-  { name: 6, cost: 3, impression: 499 },
-  { name: 7, cost: 0.53, impression: 50 },
-  { name: 8, cost: 2.52, impression: 100 },
-  { name: 9, cost: 1.79, impression: 200 },
-  { name: 10, cost: 2.94, impression: 222 },
-  { name: 11, cost: 4.3, impression: 210 },
-  { name: 12, cost: 4.41, impression: 300 },
-  { name: 13, cost: 2.1, impression: 50 },
-  { name: 14, cost: 8, impression: 190 },
-  { name: 15, cost: 0, impression: 300 },
-  { name: 16, cost: 9, impression: 400 },
-  { name: 17, cost: 3, impression: 200 },
-  { name: 18, cost: 2, impression: 50 },
-  { name: 19, cost: 3, impression: 100 },
-  { name: 20, cost: 7, impression: 100 },
+  { name: 1, pressure: 4.11, impression: 100 },
+  { name: 2, pressure: 2.39, impression: 120 },
+  { name: 3, pressure: 1.37, impression: 150 },
+  { name: 4, pressure: 1.16, impression: 180 },
+  { name: 5, pressure: 2.29, impression: 200 },
+  { name: 6, pressure: 3, impression: 499 },
+  { name: 7, pressure: 0.53, impression: 50 },
+  { name: 8, pressure: 2.52, impression: 100 },
+  { name: 9, pressure: 1.79, impression: 200 },
+  { name: 10, pressure: 2.94, impression: 222 },
+  { name: 11, pressure: 4.3, impression: 210 },
+  { name: 12, pressure: 4.41, impression: 300 },
+  { name: 13, pressure: 2.1, impression: 50 },
+  { name: 14, pressure: 8, impression: 190 },
+  { name: 15, pressure: 0, impression: 300 },
+  { name: 16, pressure: 9, impression: 400 },
+  { name: 17, pressure: 3, impression: 200 },
+  { name: 18, pressure: 2, impression: 50 },
+  { name: 19, pressure: 3, impression: 100 },
+  { name: 20, pressure: 7, impression: 100 },
 ];
 
 const getAxisYDomain = (from, to, ref, offset) => {
@@ -110,7 +110,7 @@ export default class HistoricalChart extends PureComponent {
     if (refAreaLeft > refAreaRight) [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
 
     // yAxis domain
-    const [bottom, top] = getAxisYDomain(refAreaLeft, refAreaRight, 'cost', 1);
+    const [bottom, top] = getAxisYDomain(refAreaLeft, refAreaRight, 'pressure', 1);
     const [bottom2, top2] = getAxisYDomain(refAreaLeft, refAreaRight, 'impression', 50);
 
     this.setState(() => ({
@@ -190,7 +190,7 @@ export default class HistoricalChart extends PureComponent {
             yAxisId="2"
           />
           <Tooltip />
-          <Line yAxisId="1" type="natural" dataKey="cost" stroke="#8884d8" animationDuration={300} />
+          <Line yAxisId="1" type="natural" dataKey="pressure" stroke="#8884d8" animationDuration={300} />
           <Line yAxisId="2" type="natural" dataKey="impression" stroke="#82ca9d" animationDuration={300} />
 
           {

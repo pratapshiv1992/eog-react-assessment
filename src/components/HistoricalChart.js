@@ -8,31 +8,11 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 
-const fetchDataFromGraphqlApi = ()=>{
+const fetchDataFromGraphqlApi = (query,variables)=>{
     return axios({
         url: 'https://react.eogresources.com/graphql',
         method: 'post',
-        data: {
-          query: `query ($input: [MeasurementQuery]) {
-                getMultipleMeasurements(input:$input) {
-                    metric
-                    measurements {
-                        at
-                        value
-                        metric
-                        unit
-                        }   
-                }
-            }`,
-            variables: {
-                "input": [
-                   {
-                      "metricName": "tubingPressure",
-                      "after": 1562736821958
-                   }
-                ]
-             }
-        },
+        data: {query,variables},
         headers: {
               'Content-Type': 'application/json'
         }
@@ -40,7 +20,20 @@ const fetchDataFromGraphqlApi = ()=>{
 }
 
 
-const MetricOption =({open,handleClose,handleOpen,selectedValue,handleChange,options=[]})=>{
+const getMetricsQuery = `{getMetrics}`;
+const getMultipleMeasurementsQuery = `query ($input: [MeasurementQuery]) {
+  getMultipleMeasurements(input:$input) {
+      metric
+      measurements {
+          at
+          value
+          metric
+          unit
+          }   
+  }
+}`
+
+const MetricOption =({open,handleClose,handleOpen,selectedValue='tubingPressure',handleChange,options=['tubingPressure']})=>{
     return (
         <form autoComplete="off">
             <FormControl style={{minWidth:"120px",margin: "40px 0px 40px 200px" }} >
@@ -95,52 +88,57 @@ class App extends React.Component {
     }}
 
     componentDidMount(){
-      axios({
-        url: 'https://react.eogresources.com/graphql',
-        method: 'post',
-        data: {
-          query: `{
-            getMetrics
-          }`
-        }}).then(({data:{data:{getMetrics:metricValues}}}) => {
-        this.setState({metricValues});
-      });
-
-        fetchDataFromGraphqlApi().then(({data:{data:{getMultipleMeasurements}}}) => {
-            let categoriesArray = [],seriesArray = [];
-            getMultipleMeasurements[0].measurements.slice(0,100).forEach(object => {
-              const date =  moment.unix(object.at).toISOString().replace('Z','');
-              categoriesArray.push(date);
-              seriesArray.push(object.value);
-            });
-            let options = {
-              options: {
-                dataLabels: {enabled: false},
-                stroke: {curve: 'smooth'},
-                xaxis: {
-                  type: 'datetime',
-                  categories:categoriesArray,
-                },
-                tooltip: {
-                  x: {format: 'dd/MM/yy HH:mm'},
-                }
-              },
-              series: [{
-                name: 'series2',
-                data: seriesArray
-              }],
-            }
-            
-            this.setState({
-              ...options
-            });
-
-          });
+        fetchDataFromGraphqlApi(getMetricsQuery,{})
+        .then(({data:{data:{getMetrics:metricValues}}}) => {
+          this.setState({metricValues});
+        });
+        this.fetchDataOnChange();
     }
 
     handleChange=(event)=>{
-      debugger
         this.setState({selectedValue:event.target.value});
+        this.fetchDataOnChange(event.target.value);
+    }
+
+    fetchDataOnChange=(metricName='tubingPressure')=>{
+      const inputVariables = {
+        "input": [
+           {
+              metricName,
+              "after": 1562736821958
+           }
+        ]
+     }
+     fetchDataFromGraphqlApi(getMultipleMeasurementsQuery,inputVariables).then(({data:{data:{getMultipleMeasurements}}}) => {
+      let categoriesArray = [],seriesArray = [];
+      getMultipleMeasurements[0].measurements.slice(0,50).forEach(object => {
+        const date =  moment.unix(object.at).toISOString().replace('Z','');
+        categoriesArray.push(date);
+        seriesArray.push(object.value);
+      });
+
+      let options = {
+        options: {
+          dataLabels: {enabled: false},
+          stroke: {curve: 'smooth'},
+          xaxis: {
+            type: 'datetime',
+            categories:categoriesArray,
+          },
+          tooltip: {
+            x: {format: 'dd/MM/yy HH:mm'},
+          }
+        },
+        series: [{
+          name: 'series2',
+          data: seriesArray
+        }],
+      }
+      this.setState({
+        ...options
+      });
+
+    });
     }
 
     handleClose=()=>{
